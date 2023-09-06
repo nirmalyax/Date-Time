@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Date and Time</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-2012-2022.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            margin: 0;
+            padding: 0;
+            background: url('projects/restraunt/world-map.jpeg') no-repeat center center fixed; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        h1 {
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            text-shadow: 2px 2px 4px #000000;
+        }
+        #datetime {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            overflow: auto;
+            font-size: 20px;
+            color: #333;
+        }
+        #timezoneSelect {
+            display: block;
+            width: 200px;
+            height: 40px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+            text-align: center;
+            padding: 10px 0;
+        }
+        p.instructions {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to our website!</h1>
+    <p class="instructions">Please select your country from the dropdown list to see the current date and time.</p>
+    <select id="timezoneSelect"></select>
+    <table id="datetime">
+        <tr>
+            <th>Country</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+    </table>
+    <footer>
+        <p>© 2022 All rights reserved.</p>
+    </footer>
+    <script>
+        var timeZones = moment.tz.names();
+        var select = document.getElementById("timezoneSelect");
+        timeZones.forEach(timezone => {
+            var option = document.createElement("option");
+            option.text = timezone;
+            option.value = timezone;
+            select.add(option);
+        });
+        select.addEventListener('change', function() {
+            var selectedTimezone = this.value;
+            var date = moment().tz(selectedTimezone).format('MMMM Do YYYY');
+            var time = moment().tz(selectedTimezone).format('h:mm:ss a');
+            var table = document.getElementById("datetime");
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = selectedTimezone;
+            cell2.innerHTML = date;
+            cell3.innerHTML = time;
+            document.body.style.backgroundImage = "url('" + selectedTimezone.replace(/\//g, '-') + ".jpg')";
+            setInterval(function() {
+                var time = moment().tz(selectedTimezone).format('h:mm:ss a');
+                cell3.innerHTML = time;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
